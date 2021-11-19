@@ -2,10 +2,68 @@
 
 <head>
 	<meta charset="utf-8">
+	<style>
+		html, body {
+    		height: 100%;
+		}
+
+		html {
+   			display: table;
+    		margin: auto;
+		}
+
+		body {
+    		display: table-cell;
+    		vertical-align: middle;
+			background-color: rgb(48, 48, 48);
+			color:rgb(217, 210, 230);
+			font-size: large;
+			text-align: center;
+			font-family: monospace;
+		}
+
+		#textBox {
+			border-radius: 50px;
+			border-style: dashed;
+			padding:10px;
+			margin-bottom: 20px;
+			font-family: monospace;
+			text-align: center;
+		}
+
+		#submit {
+			margin-top: 30px;
+			padding: 15px;
+			border-radius: 100%;
+		}
+	</style>
 	<script>
 		// TODO: create a handler
+		function setSearchEngine(event) {
+			console.log("setSearchEngine")
+			let engine = document.querySelector("input[name=engine]:checked");
+			let actions = {
+				"google": "https://www.google.com/search",
+				"duckDuckGo": "https://duckduckgo.com/",
+				"bing": "https://www.bing.com/search",
+				"ask": "https://www.ask.com/web"
+			}
+			let actionURL = actions[engine.value];
+			let formAction = document.getElementById("searchForm");
+			formAction.setAttribute("action", actionURL);
+		}
     window.addEventListener("load", function(){
-        // TODO: register the handler
+		// TODO: register the handler
+		let form = document.querySelector("form");
+		form.addEventListener("submit", function(event) {
+			let searchEngine = document.querySelector("input[name=engine]:checked");
+			let textBox = document.querySelector("input[name=q]");
+			if (textBox.value.trim() === "" || !searchEngine ) {
+				alert("Please enter a search term and select an engine.");
+				event.preventDefault();
+			}
+			setSearchEngine();
+		});
     });
 	</script>
 </head>
@@ -14,6 +72,13 @@
 
 	<form id="searchForm">
     <!-- TODO: add form elements -->
+	<h1>✧･ﾟ: *✧･ﾟ:* Search Wizard *:･ﾟ✧*:･ﾟ✧</h1>
+	<input type="text" name="q" size="50" id="textBox"><br>
+	<label><input type="radio" name="engine" value="google"/> Google &nbsp;&nbsp;</label>
+	<label><input type="radio" name="engine" value="duckDuckGo"/> DuckDuckGo &nbsp;&nbsp;</label>
+	<label><input type="radio" name="engine" value="bing"/> Bing &nbsp;&nbsp;</label>
+	<label><input type="radio" name="engine" value="ask"/> Ask &nbsp;&nbsp;</label><br>
+	<input type="submit" value="Go!" id="submit"/>
 	</form>
 
 </body>
